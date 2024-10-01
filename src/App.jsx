@@ -2,18 +2,20 @@ import React, { useState } from "react";
 function Square({value,onClick}) {
  
   return (
-    <button onClick={onClick} className="w-12 h-12 rounded-lg border-[1px] bg-purple-700 text-white drop-shadow-lg m-1 hover:scale-105 ">
+    <button onClick={onClick} className="w-24 h-24 rounded-lg border-[1px] bg-purple-700 text-white drop-shadow-lg m-1 hover:scale-105 ">
     {value}
     </button>
   );
 }
-export default function App() {
+function Board() {
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [isXNext, setIsXNext] = useState(true);
   // decide winner
+
   const winner = calculateWinner(squares);
   const status = winner ? `Winner: ${winner}` : `Next player: ${isXNext ? "X" : "O"}`;
   const handleSetSquares = (index) => {
+    
     if(squares[index] || calculateWinner(squares)){
       console.log(calculateWinner(squares));
       return;
@@ -30,10 +32,12 @@ export default function App() {
     }
     setIsXNext(!isXNext);
   }
+
   return (
-    <div className="">
-      <div className="text-3xl font-bold text-center text-white bg-purple-700 p-2">
-        {status}
+    <div className=" w-[500px]">
+      
+      <div className="text-2xl font-bold text-center w-[308px] mb-2 rounded-lg text-white bg-purple-700 p-2">
+      <p>     {!squares.includes(null)?"Game Over":status}</p>
       </div>
       <div className="flex">
         <Square value={squares[0]} onClick={()=>handleSetSquares(0)} />
@@ -54,7 +58,31 @@ export default function App() {
     </div>
   );
 }
+// 
 
+export default function App() {
+  return (
+    <div className="bg-purple-900 h-screen flex items-center justify-center">
+     <div className="flex">
+      <Board />
+      <div>
+        <h1 className="text-3xl text-white font-bold">History</h1>
+        <ul>
+          <li>
+            <button className="bg-purple-700 text-white p-2 rounded-lg m-2">Go to move #1</button>
+          </li>
+          <li>
+            <button className="bg-purple-700 text-white p-2 rounded-lg m-2">Go to move #2</button>
+          </li>
+          <li>
+            <button className="bg-purple-700 text-white p-2 rounded-lg m-2">Go to move #3</button>
+          </li>
+        </ul>
+      </div>
+     </div>
+    </div>
+  );
+}
 
 const calculateWinner = (squares) => {
 
