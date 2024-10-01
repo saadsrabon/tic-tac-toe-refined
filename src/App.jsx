@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 function Square({value,onClick}) {
  
   return (
@@ -11,24 +11,28 @@ function Board() {
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [isXNext, setIsXNext] = useState(true);
   // decide winner
-
+  const soundref =useRef(new Audio("toy-button-105724.mp3"));
+  
   const winner = calculateWinner(squares);
   const status = winner ? `Winner: ${winner}` : `Next player: ${isXNext ? "X" : "O"}`;
   const handleSetSquares = (index) => {
     
     if(squares[index] || calculateWinner(squares)){
-      console.log(calculateWinner(squares));
+     
       return;
     }
     if(isXNext){
+      soundref.current.play();
       const newSquares = [...squares];
       newSquares[index] = "X";
       setSquares(newSquares);
+     
      
     }else{
     const newSquares = [...squares];
     newSquares[index] = "Y";
     setSquares(newSquares);
+    soundref.current.play();
     }
     setIsXNext(!isXNext);
   }
